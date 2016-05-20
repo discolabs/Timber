@@ -3,7 +3,7 @@ layout: default
 title: Shopify Theme Development Framework - Timber
 description: Timber is a theme framework for Shopify that helps you get your store up and running quickly. It provides all required theme templates, a starter set of liquid tags, and some basic styles and modules for you to extend on.
 canonical: /timber
-version: v2.1.7
+version: v2.2.0
 ---
 
 <!-- gh-pages -->
@@ -1119,16 +1119,161 @@ ajaxCart.init({ [options] })
 
         <div id="ajax-cart-callback">
           <h4 class="docs-h4">Ajax Cart Callback</h4>
-          <p class="docs-text">A custom event is fired when the cart has loaded in the DOM. To access it, set up a listener on the body element for <code>ajaxCart.afterCartLoad</code>. Use this callback in external files or below the initialize JS. Multiple callback listeners is also valid.</p>
+          <p class="docs-text">A custom event is fired when the cart has loaded in the DOM. To access it, set up a listener on the body element for <code>afterCartLoad.ajaxCart</code>. Use this callback in external files or below the initialize JS. Multiple callback listeners is also valid.</p>
 <pre>
-jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {
-  // Bind to 'ajaxCart.afterCartLoad' to run any javascript after the cart has loaded in the DOM
+jQuery('body').on('afterCartLoad.ajaxCart', function(evt, cart) {
+  // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
   // cart is the result of /GET cart.js (https://docs.shopify.com/support/your-website/themes/can-i-use-ajax-api#get-cart)
 
   // Open Timber's drawer when cart is ready
   timber.RightDrawer.open();
 });
 </pre>
+
+        </div>
+
+        <div id="ajax-cart-callback" class="overflow-auto">
+          <h4 class="docs-h4">Ajax Cart Custom Events</h4>
+          <p class="docs-text">Events were added in <strong>v2.2.0</strong>. Usage is the same as the example above.</p>
+          <p class="docs-text">Disable all events with <code>$(document.body).off('.ajaxCart')</code>.</p>
+          <table class="docs-table text-left">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Parameters received</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>beforeUpdateCartNote.ajaxCart</code></td>
+                <td><code>evt</code>, <code>note</code></td>
+                <td>
+                  <p>Fired before the ajax post to update the cart's note</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>afterUpdateCartNote.ajaxCart</code></td>
+                <td><code>evt</code>, <code>note</code>, <code>cart</code></td>
+                <td>
+                  <p>Fired after the ajax post to update the cart's note</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>errorUpdateCartNote.ajaxCart</code></td>
+                <td><code>evt</code>, <code>XMLHttpRequest</code>, <code>textStatus</code></td>
+                <td>
+                  <p>Fired anytime there is an ajax error posting the cart note</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>completeUpdateCartNote.ajaxCart</code></td>
+                <td><code>evt</code>, <code>obj</code>, <code>jqxhr</code>, <code>text</code></td>
+                <td>
+                  <p>Fired after the request finishes</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>beforeAddItem.ajaxCart</code></td>
+                <td><code>evt</code></td>
+                <td>Fired before an item is added to the cart from a form</td>
+              </tr>
+              <tr>
+                <td><code>afterAddItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>product</code>, <code>form</code></td>
+                <td>Fired after an item is added to the cart from a form</td>
+              </tr>
+              <tr>
+                <td><code>errorAddItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>XMLHttpRequest</code>, <code>textStatus</code></td>
+                <td>Fired anytime there is an ajax error adding a product to the cart</td>
+              </tr>
+              <tr>
+                <td><code>completeAddItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>obj</code>, <code>jqxhr</code>, <code>text</code></td>
+                <td>Fired after the request finishes</td>
+              </tr>
+              <tr>
+              <tr>
+                <td><code>beforeGetCart.ajaxCart</code></td>
+                <td><code>evt</code></td>
+                <td>Fired before the cart is requested</td>
+              </tr>
+              <tr>
+                <td><code>afterGetCart.ajaxCart</code></td>
+                <td><code>evt</code>, <code>cart</code></td>
+                <td>Fired after the cart is received</td>
+              </tr>
+              <tr>
+                <td><code>beforeChangeItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>line</code>, <code>quantity</code></td>
+                <td>Fired before an item in the cart is changed</td>
+              </tr>
+              <tr>
+                <td><code>afterChangeItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>line</code>, <code>quantity</code>, <code>cart</code></td>
+                <td>Fired after an item in the cart is changed</td>
+              </tr>
+              <tr>
+                <td><code>errorChangeItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>XMLHttpRequest</code>, <code>textStatus</code></td>
+                <td>Fired anytime there is an ajax error changing a product item</td>
+              </tr>
+              <tr>
+                <td><code>completeChangeItem.ajaxCart</code></td>
+                <td><code>evt</code>, <code>obj</code>, <code>jqxhr</code>, <code>text</code></td>
+                <td>Fired after the request finishes</td>
+              </tr>
+              <tr>
+                <td><code>afterCartLoad.ajaxCart</code></td>
+                <td><code>cart</code></td>
+                <td>Fired after the ajax cart is loaded</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h4 class="docs-h4">Timber custom events</h4>
+          <p class="docs-text">Events were added in <strong>v2.2.0</strong>. Usage is the same as the example above.</p>
+          <p class="docs-text">Disable all events with <code>$(document.body).off('.timber')</code>.</p>
+          <table class="docs-table text-left">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Parameters received</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>beforeDrawerOpen.timber</code></td>
+                <td><code>evt</code>, <code>drawer</code></td>
+                <td>
+                  <p>Fired before the drawer is opened</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>afterDrawerOpen.timber</code></td>
+                <td><code>evt</code>, <code>drawer</code>
+                <td>
+                  <p>Fired after the drawer is opened</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>beforeDrawerClose.timber</code></td>
+                <td><code>evt</code>, <code>drawer</code>
+                <td>
+                  <p>Fired before the drawer is closed</p>
+                </td>
+              </tr>
+              <tr>
+                <td><code>afterDrawerClose.timber</code></td>
+                <td><code>evt</code>, <code>drawer</code>
+                <td>
+                  <p>Fired after the drawer is closed</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
         </div>
 
@@ -1154,8 +1299,8 @@ jQuery(function($) {
   });
 });
 
-jQuery('body').on('ajaxCart.afterCartLoad', function(evt, cart) {
-  // Bind to 'ajaxCart.afterCartLoad' to run any javascript after the cart has loaded in the DOM
+jQuery('body').on('afterCartLoad.ajaxCart', function(evt, cart) {
+  // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
   timber.RightDrawer.open();
 });
 &lt;/script&gt;
